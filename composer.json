@@ -11,7 +11,7 @@
         "slim/slim": "2.*",
         "catfan/medoo": "dev-master",
         "wixel/gump": "dev-master",
-        "mustache/mustache": "~2.5"
+        "smarty/smarty": "~3.1"
     },
     "license": "Todos os direitos reservados a Evandro Zanatta.",
     "minimum-stability": "dev"

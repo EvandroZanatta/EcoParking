@@ -3,13 +3,16 @@
 require 'vendor/slim/slim/Slim/Slim.php';
 \Slim\Slim::registerAutoloader();
 
-require 'vendor/mustache/mustache/src/Mustache/Autoloader.php';
-Mustache_Autoloader::register();
-$GLOBALS['mustache'] = new Mustache_Engine;
+require('vendor/smarty/smarty/libs/Smarty.class.php');
+$GLOBALS['smarty'] = new Smarty();
+$smarty->setTemplateDir('views/templates');
+$smarty->setCompileDir('views/templates_c');
+$smarty->setCacheDir('views/cache');
+$smarty->setConfigDir('views/configs');
 
 // Set the current mode
 $app = new \Slim\Slim(array(
-    'mode' => 'production'
+    'mode' => 'development'
 ));
 // Only invoked if mode is "production"
 $app->configureMode('production', function () use ($app) {
@@ -26,12 +29,28 @@ $app->configureMode('development', function () use ($app) {
     ));
 });
 
+/* 
+    Routes
+*/
+
+//autoload controller
+function loadController($file_name){
+    include_once('controller/'.$file_name.'.php');
+}
+
 $app->get('/', function () {
     global $mustache;
-    echo $mustache->render('Hello {{planet}}', array('planet' => 'World!')); // "Hello World!"
+    echo "/";
+});
+
+$app->get('/login', function () {
+    loadController("login");
+});
+
+$app->get('/test', function () {
+    
 });
 
 header("Access-Control-Allow-Origin: *");
-$app->response()->header('Content-Type', 'application/json;charset=utf-8');
 $app->run();
 ?>
